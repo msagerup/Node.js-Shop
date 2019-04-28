@@ -1,22 +1,23 @@
+const path = require('path');
 const express = require('express');
 const router = express.Router();
 
+const rootDir = require('../util/path.js');
+
+
+const products = [];
+
+// Products page, Get request
 router.get('/add-product', (req, res, next) => {
-    res.send(`
-        <form action="/admin/add-product" method="POST">
-            <input type="text" name="title">
-            <button type="submit">Send</button>
-        </form>
-        `)
+    res.render('add-product', {pageTitle: 'Add Product'});
 });
 
+// Products page, POST request
 router.post('/add-product', (req,res) => {
-    input = req.body
-    res.send(`
-        <h2>This it the products page</h2>
-        <h4>Thank you for your input! You typed ${input.title}</h4>
-    `)
-    console.log(input)
+    input = req.body.title;
+    products.push({title: input});
+    res.redirect('/');
 });
 
-module.exports = router;
+exports.routes = router;
+exports.products = products;
